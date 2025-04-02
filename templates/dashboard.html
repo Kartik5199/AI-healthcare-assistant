@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AI Healthcare</title>
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#007BFF", /* Medical blue */
+                        secondary: "#00C9A7", /* Teal */
+                    },
+                    fontFamily: {
+                        sans: ["Poppins", "sans-serif"],
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- External Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Animate on Scroll (AOS) Library -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white transition-colors duration-300">
+
+    <!-- Hero Section Background -->
+    <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-r from-primary to-secondary transform skew-y-3 opacity-30"></div>
+
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center px-6 py-4 bg-white shadow-md dark:bg-gray-800 fixed w-full top-0 z-50">
+        <h1 class="text-2xl font-bold text-primary dark:text-secondary">Dashboard</h1>
+        <div class="flex items-center space-x-6">
+            <button id="dark-mode-toggle" class="p-2 rounded-lg bg-gray-800 text-white dark:bg-gray-300 dark:text-black transition-transform duration-300 hover:rotate-180">
+                🌙
+            </button>
+            <a href="{{ url_for('routes.logout') }}" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-transform transform hover:scale-105">
+                Logout
+            </a>
+        </div>
+    </nav>
+
+    <!-- Spacer for Fixed Navbar -->
+    <div class="h-16"></div>
+
+    <!-- Welcome Section -->
+    <div class="container mx-auto text-center py-20 relative z-10" data-aos="fade-up">
+        <h2 class="text-4xl font-bold text-gray-900 dark:text-white leading-tight">Welcome, {{ username }}!</h2>
+        <p class="text-lg text-gray-600 dark:text-gray-300 mt-4">
+            Your AI-powered healthcare dashboard is ready.
+        </p>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container mx-auto text-center py-10">
+        <h2 class="text-3xl md:text-4xl font-bold text-primary dark:text-secondary" data-aos="fade-up">
+            Explore AI-Powered Healthcare Solutions
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-300 mt-2" data-aos="fade-up" data-aos-delay="200">
+            Smart tools to assist you in disease prediction, medical queries, and more!
+        </p>
+    </div>
+    
+    <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 py-12 px-6 md:px-10">
+        <!-- Disease Prediction -->
+        <a href="{{ url_for('routes.disease_prediction') }}" class="relative group overflow-hidden rounded-lg shadow-lg" data-aos="fade-up">
+            <img src="{{ url_for('static', filename='images/disease_prediction.png') }}" 
+                 alt="Disease Prediction" 
+                 class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-500">
+            <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white p-6">
+                <h3 class="text-2xl font-bold">Disease Prediction</h3>
+                <p class="text-sm text-gray-300">Enter symptoms and predict potential diseases using AI.</p>
+            </div>
+        </a>
+
+        <!-- Brain Tumor Detection -->
+        <a href="{{ url_for('routes.brain_tumor') }}" class="relative group overflow-hidden rounded-lg shadow-lg" data-aos="fade-up" data-aos-delay="200">
+            <img src="{{ url_for('static', filename='images/brain_tumor.webp') }}" 
+                 alt="Brain Tumor Detection" 
+                 class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-500">
+            <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white p-6">
+                <h3 class="text-2xl font-bold">Brain Tumor Detection</h3>
+                <p class="text-sm text-gray-300">Upload MRI images and detect tumors using deep learning.</p>
+            </div>
+        </a>
+
+        <!-- Medicine Lookup -->
+        <a href="{{ url_for('routes.get_medicine') }}" class="relative group overflow-hidden rounded-lg shadow-lg">
+            <img src="{{ url_for('static', filename='images/medicine_lookup.webp') }}" 
+                 alt="Medicine Lookup" 
+                 class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-500">
+            <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white p-6">
+                <h3 class="text-2xl font-bold">Medicine Lookup</h3>
+                <p class="text-sm text-gray-300">Find details about medicines or get recommendations.</p>
+            </div>
+        </a>
+
+        <!-- Smart Health Chatbot -->
+        <a href="{{ url_for('routes.chatbot') }}" class="relative group overflow-hidden rounded-lg shadow-lg">
+            <img src="{{ url_for('static', filename='images/chatbot.png') }}" 
+                 alt="Smart Health Chatbot" 
+                class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-500">
+            <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white p-6">
+                <h3 class="text-2xl font-bold">Smart Health Chatbot</h3>
+                <p class="text-sm text-gray-300">Health Queries? Just Chat with AI!</p>
+        </div>
+    </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 bg-gray-100 dark:bg-gray-800 mt-8">
+        <p class="text-gray-600 dark:text-gray-400">© 2025 AI Healthcare Assistant. All rights reserved.</p>
+    </footer>
+
+    <!-- Initialize AOS Library -->
+    <script>
+        AOS.init();
+    </script>
+
+</body>
+</html>

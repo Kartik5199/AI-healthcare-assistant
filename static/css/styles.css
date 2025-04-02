@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Styling */
+body {
+    @apply bg-green-50 text-gray-900 transition-colors duration-300;
+}
+
+/* Dark Mode */
+.dark {
+    @apply bg-gray-900 text-gray-100;
+}
+
+/* Navbar */
+.navbar {
+    @apply flex justify-between items-center px-6 py-4 bg-green-600 text-white shadow-md;
+}
+
+.navbar a {
+    @apply text-white font-medium hover:underline;
+}
+
+/* Container */
+.container {
+    @apply max-w-4xl mx-auto px-4 py-8;
+}
+
+/* Form */
+.form-input {
+    @apply w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none;
+}
+
+.form-btn {
+    @apply w-full bg-green-600 text-white py-2 rounded-lg mt-4 hover:bg-green-700;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    @apply cursor-pointer bg-gray-800 text-white px-3 py-2 rounded-lg shadow-md;
+}
+
+/* Card Styling */
+.card {
+    @apply bg-white p-6 rounded-lg shadow-md transition-all duration-300;
+}
+
+.dark .card {
+    @apply bg-gray-800 text-gray-100 shadow-lg;
+}

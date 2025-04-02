@@ -1,0 +1,15 @@
+
+---
+
+## 📌 **4. `.gitignore`** (Exclude Sensitive Files)
+```gitignore
+__pycache__/
+.env
+secret_config.json
+instance/
+*.pyc
+*.pyo
+*.log
+venv/
+node_modules/
+tailwind.config.js

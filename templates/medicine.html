@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Query - AI Healthcare</title>
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#007BFF", /* Medical blue */
+                        secondary: "#00C9A7", /* Teal */
+                    },
+                    fontFamily: {
+                        sans: ["Poppins", "sans-serif"],
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- External Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Link JavaScript -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+
+    <!-- Animate on Scroll (AOS) Library -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+
+<html class="transition-colors duration-300">
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white transition-colors duration-300">
+
+    <!-- Hero Section Background -->
+    <div class="absolute top-0 left-0 w-full h-80 bg-gradient-to-r from-primary to-secondary transform skew-y-3 opacity-30"></div>
+
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center px-6 py-4 bg-white dark:bg-gray-800 shadow-md fixed w-full top-0 z-50">
+        <h1 class="text-2xl font-bold text-primary dark:text-secondary">Medicine Query</h1>
+        <div class="flex items-center space-x-6">
+            <a href="{{ url_for('routes.dashboard') }}" class="hover:text-primary transition duration-300 font-medium">Back To Dashboard</a>
+            <button id="dark-mode-toggle" class="p-2 rounded-lg bg-gray-800 text-white dark:bg-gray-300 dark:text-black transition-transform duration-300 hover:rotate-180">
+                🌙
+            </button>
+        </div>
+    </nav>
+
+    <!-- Search and Results Section -->
+    <div class="container mx-auto flex flex-col md:flex-row gap-6 mt-28 p-4">
+        
+        <!-- Medicine Search Form -->
+        <div class="w-full md:w-1/2 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md" data-aos="fade-right">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Search Medicines</h2>
+            <form method="POST" action="{{ url_for('routes.get_medicine') }}" class="space-y-4">
+
+                <label class="block font-bold text-gray-800 dark:text-gray-300">Search by Medicine Name:</label>
+                <input type="text" name="medicine_name" id="medicine_name" placeholder="Enter medicine name"
+                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
+                           focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white">
+                <ul id="medicine-suggestions" class="autocomplete-list"></ul>
+
+                <label class="block font-bold text-gray-800 dark:text-gray-300">Search by Disease:</label>
+                <input type="text" name="disease_name" id="disease_name" placeholder="Enter disease name"
+                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
+                           focus:outline-none focus:ring-2 focus:ring-secondary dark:bg-gray-700 dark:text-white">
+                <ul id="disease-suggestions" class="autocomplete-list"></ul>
+
+                <button type="submit"
+                    class="w-full bg-primary text-white px-6 py-3 rounded-md font-semibold 
+                           hover:bg-blue-700 dark:bg-secondary dark:hover:bg-green-600 
+                           transition-transform transform hover:scale-105 shadow-lg">
+                    Search 🔍
+                </button>
+            </form>
+        </div>
+
+    <!-- Search Results -->
+    <div class="w-full md:w-1/2 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md" data-aos="fade-left">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Results</h2>
+    
+        {% if results %}
+        {% if results[0] and results[0]["Medicine Name"] %}
+            <!-- ✅ Full Medicine Details (Search by Medicine Name) -->
+            {% for result in results %}
+            <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md">
+                <strong>Medicine Name:</strong> {{ result["Medicine Name"] }} <br>
+                <strong>Composition:</strong> {{ result.get("Composition", "N/A") }} <br>
+                <strong>Uses:</strong> {{ ", ".join(result.get("uses", [])) }} <br>
+                <strong>Side Effects:</strong> {{ ", ".join(result.get("side_effects", [])) }} <br>
+                <strong>Manufacturer:</strong> {{ result.get("Manufacturer", "Unknown") }}
+            </div>
+            {% endfor %}
+        
+        {% else %}
+            <!-- ✅ Medicine Names Only (Search by Disease) -->
+            {% if results %}
+            <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md">
+                <strong>Medicines:</strong> 
+                {{ results | join(", ") }}
+            </div>
+            {% else %}
+            <p class="text-lg font-bold text-gray-900 dark:text-white">No medicines found for this search.</p>
+            {% endif %}
+        {% endif %}
+        {% endif %}
+
+    </div>
+    
+
+</div>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 bg-gray-100 dark:bg-gray-800 mt-8">
+        <p class="text-gray-600 dark:text-gray-400">© 2025 AI Healthcare Assistant. All rights reserved.</p>
+    </footer>
+
+    <!-- Styles for Autocomplete -->
+    <style>
+        .autocomplete-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            width: 100%;
+            max-height: 150px;
+            overflow-y: auto;
+            z-index: 1000;
+            border-radius: 5px;
+        }
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .suggestion-item:hover {
+            background: #f0f0f0;
+        }
+    </style>
+
+    <!-- Initialize AOS Library -->
+    <script>
+        AOS.init();
+    </script>
+
+</body>
+</html>

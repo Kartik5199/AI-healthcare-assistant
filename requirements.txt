@@ -1,0 +1,14 @@
+Flask
+Flask-PyMongo
+Flask-WTF
+Flask-Login
+pymongo
+numpy
+pandas
+opencv-python
+Pillow
+scikit-learn
+tensorflow
+requests
+python-dotenv
+gunicorn
