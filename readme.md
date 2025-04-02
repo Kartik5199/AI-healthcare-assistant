@@ -28,12 +28,7 @@ Here’s an overview of how different components interact in the system:
 🔹 **Frontend:** HTML, Tailwind CSS, JavaScript  
 🔹 **ML Models:** Scikit-Learn (disease prediction), CNN (brain tumor detection)  
 
----
 
-## 📸 **Screenshots**  
-*(Optional: Add UI screenshots here for different features, such as the search bar, prediction results, dark mode, etc.)*  
-
----
 
 ## 🔧 **Installation & Setup**  
 Clone the repository:  
